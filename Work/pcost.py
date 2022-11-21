@@ -1,17 +1,19 @@
 # pcost.py
-# Exercise 1.31
+# Exercise 1.32
 # Error handling
+# Using csv library
 # M. G. Castrellon
 # 16 Nov 2022
 
+import csv
 import numpy as np
 
 def portfolio_cost(filename):
-	file = open(filename, 'rt')
-	headers = next(file).split(',')
+	file = open(filename)
+	rows = csv.reader(file)
 	list_share_cost = []
-	for line in file:
-		row = line.split(',')
+	next(rows)
+	for row in rows:
 		try:
 			number_of_shares = int(row[1])
 			single_share_cost = float(row[2])
