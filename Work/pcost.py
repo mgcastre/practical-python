@@ -3,7 +3,7 @@
 # Error handling
 # Using csv library
 # M. G. Castrellon
-# 16 Nov 2022
+# 21 Nov 2022
 
 import csv
 import numpy as np
