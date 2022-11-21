@@ -1,11 +1,10 @@
 # pcost.py
-# Exercise 1.32
-# Error handling
-# Using csv library
+# Exercise 1.33
+# Read from cmd line
 # M. G. Castrellon
 # 21 Nov 2022
 
-import csv
+import csv, sys
 import numpy as np
 
 def portfolio_cost(filename):
@@ -24,18 +23,14 @@ def portfolio_cost(filename):
 			list_share_cost.append(p)
 	file.close()
 	cost = np.sum(list_share_cost)
-	return cost, list_share_cost
+	return cost
 
-doc_path = 'Data/missing.csv'
-total_cost, table = portfolio_cost(doc_path)
-print('\nTotal cost: ', total_cost)
+if len(sys.argv) == 2:
+	filename = sys.argv[1]
+else:
+	filename = 'Data/portfolio.csv'
+	print('Using '+filename+' as default')
 
-print("\nTotal price per share:")
-for i in range(len(table)):
-	print(table[i])
-
-print('\nOriginal Data')
-with open(doc_path, 'rt') as f:
-	data = f.read()
-	print(data)
+cost = portfolio_cost(filename)
+print('\nTotal Cost:', cost)
 
