@@ -1,1 +1,1 @@
-https://dabeaz-course.github.io/practical-python/Notes/01_Introduction/06_Files.html
+https://dabeaz-course.github.io/practical-python/Notes/02_Working_with_data/02_Containers.html
