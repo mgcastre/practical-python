@@ -1,5 +1,5 @@
 # report.py
-# Exercise 2.4
+# Exercise 2.5
 # Read portfolio of holdings
 
 import csv
@@ -14,7 +14,10 @@ def read_portfolio(filename):
         rows = csv.reader(file)
         headers = next(rows)
         for row in rows:
-            holding = (row[0], int(row[1]), float(row[2]))
+            name = row[0]
+            shares = int(row[1])
+            price = float(row[2])
+            holding = {'name':name, 'shares':shares, 'price':price}
             portfolio.append(holding)
     return portfolio
 
