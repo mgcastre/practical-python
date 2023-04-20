@@ -1,13 +1,14 @@
 # report.py
-# Exercise 2.5
+# Exercise 2.6
 # Read portfolio of holdings
+# Read prices to dictionary
 
 import csv
 
 # Define function
 def read_portfolio(filename):
     '''
-    Read a csv file with name, date, shares, price data into a list
+    Read a csv file with name, shares, price data into a dictionary
     '''
     portfolio = []
     with open(filename, 'rt') as file:
@@ -20,6 +21,18 @@ def read_portfolio(filename):
             holding = {'name':name, 'shares':shares, 'price':price}
             portfolio.append(holding)
     return portfolio
+
+# Define another function
+def read_prices(filename):
+    '''
+    Read a csv file with names and prices data into a dictionary
+    '''
+    prices = {}
+    with open(filename, 'rt') as file:
+        rows = csv.reader(file)
+        headers = next(file)
+        for row in rows:
+            prices[row[0]] = float(row[1])
 
 # Test function
 portfolio = read_portfolio('Data/portfolio.csv')
