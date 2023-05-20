@@ -2,7 +2,9 @@
 # Exercise 2.6
 # Read portfolio of holdings
 # Read prices to dictionary
+# May 20th, 2023
 
+# Load libraries
 import csv
 
 # Define function
@@ -30,10 +32,14 @@ def read_prices(filename):
     prices = {}
     with open(filename, 'rt') as file:
         rows = csv.reader(file)
-        headers = next(file)
         for row in rows:
-            prices[row[0]] = float(row[1])
+            try:
+                prices[row[0]] = float(row[1])
+            except IndexError:
+                print("Empty row, therefore skipped.")
+    return prices
 
 # Test function
 portfolio = read_portfolio('Data/portfolio.csv')
-print(portfolio)
+prices = read_prices('Data/prices.csv')
+print(prices)
