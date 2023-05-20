@@ -1,7 +1,6 @@
 # report.py
-# Exercise 2.6
-# Read portfolio of holdings
-# Read prices to dictionary
+# Exercise 2.7
+# Compute the current value of the portfolio along with the gain/loss
 # May 20th, 2023
 
 # Load libraries
@@ -39,7 +38,25 @@ def read_prices(filename):
                 print("Empty row, therefore skipped.")
     return prices
 
-# Test function
+# Open files
 portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
-print(prices)
+
+# Calculate original portfolio value
+totalOriginal = 0.0
+for s in portfolio:
+    totalOriginal += s['shares']*s['price']
+print('Original Value: ', totalOriginal)
+
+# Calculate new portfolio value
+totalNew = 0.0
+for s in portfolio:
+    newPrice = prices[s['name']]
+    totalNew += s['shares']*newPrice
+print('New Value: ', totalNew)
+
+# Calculate gain/loss
+difference = ((totalNew - totalOriginal)/totalOriginal) * 100
+print('The gain/loss is (in percent): ', difference)
+
+
