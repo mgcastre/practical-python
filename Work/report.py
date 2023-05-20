@@ -1,12 +1,11 @@
 # report.py
-# Exercise 2.7
-# Compute the current value of the portfolio along with the gain/loss
+# Exercise 2.9
 # May 20th, 2023
 
 # Load libraries
 import csv
 
-# Define function
+# Define function to read portfolio
 def read_portfolio(filename):
     '''
     Read a csv file with name, shares, price data into a dictionary
@@ -23,7 +22,7 @@ def read_portfolio(filename):
             portfolio.append(holding)
     return portfolio
 
-# Define another function
+# Define function to read prices
 def read_prices(filename):
     '''
     Read a csv file with names and prices data into a dictionary
@@ -38,6 +37,31 @@ def read_prices(filename):
                 print("Empty row, therefore skipped.")
     return prices
 
+# Define function to generate report
+def make_report(portfolio, prices):
+    '''
+    Takes a list of stocks and dictionary of prices as input 
+    and returns a list of tuples containing the name of the stock, 
+    the number of stocks, the new stock price and the change in 
+    stock price since the time of purchase.
+    '''
+    report = []
+    for s in portfolio:
+        newPrice = prices[s['name']]
+        priceChange = newPrice - s['price']
+        newRow = (s['name'], s['shares'], newPrice, priceChange)
+        report.append(newRow)
+    return report
+
+# Testing new function
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+report = make_report(portfolio, prices)
+for r in report:
+    print(r)
+
+
+""" ## From Ex. 2.7
 # Open files
 portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
@@ -57,6 +81,6 @@ print('New Value: ', totalNew)
 
 # Calculate gain/loss
 difference = ((totalNew - totalOriginal)/totalOriginal) * 100
-print('The gain/loss is (in percent): ', difference)
+print('The gain/loss is (in percent): ', difference) """
 
 
