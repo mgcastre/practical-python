@@ -1,5 +1,6 @@
 # report.py
-# Exercise 2.9
+# Exercises 2.10, 2.11 & 2.12
+# Printing a formatted table with headers
 # May 20th, 2023
 
 # Load libraries
@@ -53,13 +54,26 @@ def make_report(portfolio, prices):
         report.append(newRow)
     return report
 
-# Testing new function
+# Making report
 portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
 report = make_report(portfolio, prices)
-for r in report:
-    print(r)
 
+# Printing formatted report
+headers = ('Name', 'Shares', 'Price', 'Change')
+print('\n')
+print('%10s %10s %10s %10s' % headers)
+print('---------- ---------- ---------- -----------')
+for r in report:
+    print('%10s %10d %10.2f %10.2f' % r)
+
+# Alternative printing format
+print('\n')
+print('%10s %10s %10s %10s' % headers)
+print('---------- ---------- ---------- -----------')
+for name, shares, price, change in report:
+    price_dollars = "${:.2f}".format(price)
+    print(f'{name:>10s} {shares:>10d} {price_dollars:>10} {change:>10.2f}')
 
 """ ## From Ex. 2.7
 # Open files
