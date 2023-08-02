@@ -1,7 +1,7 @@
 # report.py
-# Exercises 2.10, 2.11 & 2.12
-# Printing a formatted table with headers
-# May 20th, 2023
+# Exercise 2.16
+# Formatted table using zip()
+# 2 Aug 2023
 
 # Load libraries
 import csv
@@ -16,9 +16,10 @@ def read_portfolio(filename):
         rows = csv.reader(file)
         headers = next(rows)
         for row in rows:
-            name = row[0]
-            shares = int(row[1])
-            price = float(row[2])
+            record = dict(zip(headers, row))
+            name = record['name']
+            shares = int(record['shares'])
+            price = float(record['price'])
             holding = {'name':name, 'shares':shares, 'price':price}
             portfolio.append(holding)
     return portfolio
@@ -31,11 +32,11 @@ def read_prices(filename):
     prices = {}
     with open(filename, 'rt') as file:
         rows = csv.reader(file)
-        for row in rows:
+        for n, row in enumerate(rows):
             try:
                 prices[row[0]] = float(row[1])
             except IndexError:
-                print("Empty row, therefore skipped.")
+                print(f'Row {n}: Empty row, therefore skipped.')
     return prices
 
 # Define function to generate report
