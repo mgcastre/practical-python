@@ -1,1 +1,1 @@
-https://dabeaz-course.github.io/practical-python/Notes/02_Working_with_data/06_List_comprehension.html
+https://dabeaz-course.github.io/practical-python/Notes/02_Working_with_data/07_Objects.html
