@@ -1,7 +1,6 @@
 # report.py
-# Exercise 2.16
-# Formatted table using zip()
-# 2 Aug 2023
+# Exercises 3.1 and 3.2
+# 6 October 2023
 
 # Load libraries
 import csv
@@ -55,47 +54,66 @@ def make_report(portfolio, prices):
         report.append(newRow)
     return report
 
-# Making report
-portfolio = read_portfolio('Data/portfolio.csv')
-prices = read_prices('Data/prices.csv')
-report = make_report(portfolio, prices)
 
-# Printing formatted report
-headers = ('Name', 'Shares', 'Price', 'Change')
-print('\n')
-print('%10s %10s %10s %10s' % headers)
-print('---------- ---------- ---------- -----------')
-for r in report:
-    print('%10s %10d %10.2f %10.2f' % r)
+# Define function(s) to print properly formatted report
 
-# Alternative printing format
-print('\n')
-print('%10s %10s %10s %10s' % headers)
-print('---------- ---------- ---------- -----------')
-for name, shares, price, change in report:
-    price_dollars = "${:.2f}".format(price)
-    print(f'{name:>10s} {shares:>10d} {price_dollars:>10} {change:>10.2f}')
+def print_table_header():
+    '''
+    Prints header of report table. This function requires 
+    no arguments.
+    '''
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('\n')
+    print('%10s %10s %10s %10s' % headers)
+    print('---------- ---------- ---------- -----------')
 
-""" ## From Ex. 2.7
-# Open files
-portfolio = read_portfolio('Data/portfolio.csv')
-prices = read_prices('Data/prices.csv')
+def print_table_simple(report):
+    '''
+    Prints a table of the report in a simple format.
+    '''
+    print_table_header()
+    for r in report:
+        print('%10s %10d %10.2f %10.2f' % r)
 
-# Calculate original portfolio value
-totalOriginal = 0.0
-for s in portfolio:
-    totalOriginal += s['shares']*s['price']
-print('Original Value: ', totalOriginal)
+def print_table_dollar(report):
+    '''
+    Prints a table of the report with tabs and dollar sign.
+    '''
+    print_table_header()
+    for name, shares, price, change in report:
+        price_dollars = "${:.2f}".format(price)
+        print(f'{name:>10s} {shares:>10d} {price_dollars:>10} {change:>10.2f}')
 
-# Calculate new portfolio value
-totalNew = 0.0
-for s in portfolio:
-    newPrice = prices[s['name']]
-    totalNew += s['shares']*newPrice
-print('New Value: ', totalNew)
+def print_report(report, print_type=1):
+    '''
+    Takes a report of portfolio and prices and prints
+    it nicely formatted. There are two formats available:
+    (1) simple formatting (2) highly formatted with tabs 
+    and dollar signs. Type 0 to print both types of report.
+    '''
+    if print_type == 1:
+        print_table_simple(report)
+    elif print_type == 2:
+        print_table_dollar(report)
+    elif print_type == 0:
+        print_table_simple(report)
+        print('\n')
+        print_table_dollar(report)
+    else:
+        print("The number is out of bounds of the choices.")
 
-# Calculate gain/loss
-difference = ((totalNew - totalOriginal)/totalOriginal) * 100
-print('The gain/loss is (in percent): ', difference) """
+# Define function to make and print report
+def portfolio_report(portfolio_filename, prices_filename, print_type=2):
+    '''
+    Takes a portfolio and prices file and prints a report of how the value
+    of the portfolio has changed over time.
+    '''
+    portfolio = read_portfolio(portfolio_filename)
+    prices = read_prices(prices_filename)
+    report = make_report(portfolio, prices)
+    print_report(report, print_type)
+
+# Execute script
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
 
 
