@@ -1,37 +1,31 @@
 # pcost.py
-# Exercise 2.16
-# Using zip()
+# Exercise 3.14
 # M. G. Castrellon
-# 2 Aug 2023
+# 24 March 2024
 
 import csv, sys
 import numpy as np
+import report
 
 def portfolio_cost(filename):
-	file = open(filename)
-	rows = csv.reader(file)
-	headers = next(rows)
-	list_share_cost = []
-	for rowno, row in enumerate(rows, start=1):
-		record = dict(zip(headers, row))
-		try:
-			nshares = int(record['shares'])
-			price = float(record['price'])
-		except ValueError:
-			print(f'Row {rowno}: Bad row: {row}')
-		else:
-			cost = nshares*price
-			list_share_cost.append(cost)
-	file.close()
-	total_cost = np.sum(list_share_cost)
+	portfolio = report.read_portfolio(filename)
+	n_records = len(portfolio)
+	nshares = np.zeros(n_records)
+	prices = np.zeros(n_records)
+	for i, record in enumerate(portfolio):
+		nshares[i] = record['shares']
+		prices[i] = record['price']
+	cost = nshares*prices
+	total_cost = np.sum(cost)
 	return total_cost
 
-if len(sys.argv) == 2:
-	filename = sys.argv[1]
-else:
-	filename = 'Data/portfolio.csv'
-	print('Using '+filename+' as default')
+def main(args):
+    if len(args) != 2:
+        raise SystemExit('Usage: %s portfoliofile' % args[0])
+    filename = args[1]
+    print('Total cost:', portfolio_cost(filename))
 
-cost = portfolio_cost(filename)
-print('\nTotal Cost:', cost)
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
 

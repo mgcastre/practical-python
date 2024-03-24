@@ -1,26 +1,20 @@
 # report.py
-# Exercises 3.1 and 3.2
-# 6 October 2023
+# Exercises 3.12
+# M. G. Castrellon
+# 24 March 2024
 
 # Load libraries
 import csv
+from fileparse import parse_csv
 
 # Define function to read portfolio
 def read_portfolio(filename):
     '''
     Read a csv file with name, shares, price data into a dictionary
     '''
-    portfolio = []
-    with open(filename, 'rt') as file:
-        rows = csv.reader(file)
-        headers = next(rows)
-        for row in rows:
-            record = dict(zip(headers, row))
-            name = record['name']
-            shares = int(record['shares'])
-            price = float(record['price'])
-            holding = {'name':name, 'shares':shares, 'price':price}
-            portfolio.append(holding)
+    with open(filename) as f:
+        portfolio = parse_csv(lines=f, select=['name', 'shares', 'price'], 
+                              types=[str, int, float])
     return portfolio
 
 # Define function to read prices
@@ -28,14 +22,9 @@ def read_prices(filename):
     '''
     Read a csv file with names and prices data into a dictionary
     '''
-    prices = {}
-    with open(filename, 'rt') as file:
-        rows = csv.reader(file)
-        for n, row in enumerate(rows):
-            try:
-                prices[row[0]] = float(row[1])
-            except IndexError:
-                print(f'Row {n}: Empty row, therefore skipped.')
+    with open(filename) as f:
+        prices = parse_csv(lines=f, has_headers=False, types=[str, float])
+    prices = dict(prices)
     return prices
 
 # Define function to generate report
@@ -113,7 +102,15 @@ def portfolio_report(portfolio_filename, prices_filename, print_type=2):
     report = make_report(portfolio, prices)
     print_report(report, print_type)
 
-# Execute script
-portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+# Define the main function
+def main(args):
+    if len(args) != 3:
+        raise SystemExit('Usage: %s portfile pricefile' % args[0])
+    portfolio_report(args[1], args[2])
+
+# Execute script if main
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
 
 
